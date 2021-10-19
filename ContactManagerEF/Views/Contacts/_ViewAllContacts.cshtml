@@ -13,8 +13,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.LastName)
             </th>
-            @*<th><a asp-action="Create" class="btn btn-outline-success"><i class="far fa-plus-square"></i>&nbsp;New Contact</a></th>*@
-            <th><a onclick="showInPopup('@Url.Action("Create", "Contacts", null, Context.Request.Scheme)','New Contact')" class="btn btn-success text-white" title="Add New Contact"><i class="far fa-plus-square"></i>&nbsp;New Contact</a></th>
+            <th>
+                <a onclick="showInPopup('@Url.Action("Create", "Contacts", null, Context.Request.Scheme)','New Contact')" class="btn btn-success text-white" title="Add New Contact"><i class="far fa-plus-square"></i>&nbsp;New Contact</a>
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -29,13 +30,9 @@
                 </td>
                 <td>
                     <a onclick="showInPopup('@Url.Action("Details", "Contacts", new { id = item.ContactId }, Context.Request.Scheme)','Contact Details')" title="Details" class="btn btn-info ml-1" style="background-color: transparent; outline: none; border: none;"><i class="fas fa-address-card fa-lg"></i></a>
-                    @*<a asp-action="Details" asp-route-id="@item.ContactId" class="ml-1"><i class="fas fa-address-card fa-lg"></i></a>*@
 
                     <a onclick="showInPopup('@Url.Action("Edit", "Contacts", new { id = item.ContactId }, Context.Request.Scheme)','Edit Contact')" title="Edit Contact" class="btn btn-info ml-1 " style="background-color: transparent; outline: none; border: none;"><i class="fas fa-marker fa-lg"></i></a>
-                    @*<a asp-action="Edit" asp-route-id="@item.ContactId" class="ml-1" onclick="showInPopup('@Url.Action("Edit", "Contacts", new { id = item.ContactId }, Context.Request.Scheme)','Edit Contact')"><i class="fas fa-marker fa-lg"></i></a>*@
-                    @*<a asp-action="Edit" asp-route-id="@item.ContactId" class="ml-1"><i class="fas fa-marker fa-lg"></i></a>*@
 
-                    @*<a asp-action="Delete" asp-route-id="@item.ContactId" title="Delete Contact" class="text-danger ml-1"><i class="fas fa-trash-alt fa-lg"></i></a>*@
                     <form asp-action="Delete" asp-route-id="@item.ContactId" onsubmit="return ContactDelete(this)" class="d-inline">
                         <input type="hidden" asp-for="@item.ContactId" />
                         <button type="submit" title="Delete Contact" value="Delete" class="text-danger ml-1" style="background-color: transparent; outline: none; border: none;"><i class="fas fa-trash-alt fa-lg"></i></button>

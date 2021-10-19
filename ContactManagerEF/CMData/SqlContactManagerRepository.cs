@@ -131,16 +131,6 @@ namespace ContactManagerEF.CMData
             return _context.Contacts.Any(c => c.ContactId == id);
         }
 
-        //public async Task<IEnumerable<ContactEmailAddress>> GetContactEmailsAsync(int cId)
-        //{
-        //    var cEmailItems = _context.ContactEmailAddresses.Where(ce => ce.ContactId == cId);
-        //    //foreach (ContactEmailAddress ceItem in cEmailItems)
-        //    //{
-        //    //    c.ContactEmailAddresses.Add(ceItem);
-        //    //}
-        //    return await cEmailItems.ToListAsync();
-        //}
-
         public void Dispose()
         {
             //GC.SuppressFinalize(true);

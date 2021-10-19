@@ -17,26 +17,20 @@ namespace ContactManagerEF.Controllers
         //private readonly MockContactManagerRepository _repository = new MockContactManagerRepository();
         private readonly IContactManagerRepository _repository;
 
-        //public enum SelectEmailType
-        //{ 
-        //    Personal,
-        //    Business
-        //}
         public ContactsController(IContactManagerRepository repository)
         {
             _repository = repository;
         }
 
-        // GET: Contacts
+        // GET: Contacts - Replaced with the Index action below - with parameters
         //public async Task<IActionResult> Index()
         //{
         //    var contactItems = _repository.GetAllContactsAsync();
-
         //    return View(await contactItems);
         //}
 
         // GET: Contacts
-        // GET: Contacts with search parameter
+        // GET: Contacts/Index/?Searchstring (with a search/filter parameter)
         public async Task<IActionResult> Index(string searchstring)
         {
             ViewData["CurrentFilter"] = searchstring;
@@ -87,7 +81,7 @@ namespace ContactManagerEF.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Contact contact)
+        public async Task<IActionResult> Create([Bind("ContactId,FirstName,LastName")] Contact contact)
         {
             var emailIds = Request.Form["item.Id"].ToList();
             var emailType = Request.Form["item.EmailType"].ToList();
@@ -148,8 +142,7 @@ namespace ContactManagerEF.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(int id, [Bind("ContactId,FirstName,LastName")] Contact contact)
-        public async Task<IActionResult> Edit(int id, Contact contact)
+        public async Task<IActionResult> Edit(int id, [Bind("ContactId,FirstName,LastName")] Contact contact)
         {
             if (id != contact.ContactId)
             {
@@ -212,7 +205,6 @@ namespace ContactManagerEF.Controllers
         {
             //List<ContactEmailAddress.EmailTypes> emailTypes = Enum.GetValues(typeof(ContactEmailAddress.EmailTypes)).Cast<ContactEmailAddress.EmailTypes>().ToList();
             //ViewBag.RequiredEmailType = new SelectList(emailTypes);
-
             ContactEmailAddress emItem = new ContactEmailAddress()
             {
                 Id = 0,
