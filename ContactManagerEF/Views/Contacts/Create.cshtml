@@ -1,0 +1,104 @@
+﻿@model ContactManagerEF.Models.Contact
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div>
+    <form asp-action="Create" onsubmit="return SubmitContactPost(this); ">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group font-weight-bold">
+            <label asp-for="FirstName" class="control-label"></label>
+            <input asp-for="FirstName" class="form-control" />
+            <span asp-validation-for="FirstName" class="text-danger"></span>
+        </div>
+
+        <div class="form-group font-weight-bold">
+            <label asp-for="LastName" class="control-label"></label>
+            <input asp-for="LastName" class="form-control" />
+            <span asp-validation-for="LastName" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <div class="form-row">
+                <div class="col-md-6 font-weight-bold">Email Type</div>
+                <div class="col-md-auto font-weight-bold">Email Address</div>
+            </div>
+            <div id="emailEditRows">
+                <table class="table" id="tEmailAddresses" width="100%">
+                    @if (Model.ContactEmailAddresses != null && Model.ContactEmailAddresses.Count() > 0)
+                    {
+                        int trcount = 1;
+                        @foreach (var item in Model.ContactEmailAddresses)
+                        {
+                            var trow = "tablerow" + trcount.ToString();
+                            @:<tr id="@trow" class="emailRow">
+                                @:<td width="45%" align="left">
+                                    <input type="hidden" asp-for="@item.Id" />
+                                    @*<input asp-for="@item.EmailType" class="form-control col-md-6" />*@
+
+                                    <select id="item_EmailType" name="item.EmailType" class="form-control col-md-auto">
+                                        <option value="" disabled hidden selected>Select Type</option>
+                                        @foreach (var s in ViewBag.RequiredEmailType)
+                                        {
+                                            if (s == item.EmailType)
+                                            {
+                                                <option value=@s selected>@s</option>
+                                            }
+                                            else
+                                            {
+                                                <option value=@s>@s</option>
+                                            }
+                                        }
+                                    </select>
+
+                                    <span asp-validation-for="@item.EmailType" class="text-danger"></span>
+
+                                @:</td>
+                                @:<td align="left">
+                                    <input asp-for="@item.EmailAddress" class="form-control col-md-auto" />
+                                    <span asp-validation-for="@item.EmailAddress" class="text-danger"></span>
+                                @:</td>
+                                @:<td align="right">
+                                    @if (trcount > 1)
+                                    {
+                                        <a href="#" class="deleteRow text-danger ml-1" title="Remove"><i class="fas fa-trash-alt fa-sm" style="border:none"></i></a>
+                                        @*<button type="button" class="text-danger ml-1" onclick="deleteTr(@trcount);"><i class="fas fa-trash-alt fa-sm" style="border:none"></i></button>*@
+                                    }
+                                @:</td>
+                            @:</tr>
+                            trcount++;
+                        }
+                    }
+                    @*else
+                    {
+                        <tr>
+                            <td colspan="3" class="text-danger">
+                                NO RECORDS
+                            </td>
+                        </tr>
+                    }*@
+                </table>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <button type="button" id="addItem" class="btn btn-outline-success"><i class="far fa-plus-square"></i>&nbsp;Add Email</button>
+                    @*<button type="submit" asp-action="AddEmailItem" onclick="return AddEmailItem(this);" id="add" class="btn btn-outline-success"><i class="far fa-plus-square"></i>&nbsp;Add Email</button>*@
+                </div>
+            </div>
+            <hr />
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <input type="submit" value="Save" class="btn btn-primary btn-block" />
+                </div>
+                <div class="form-group col-md-6">
+                    <a asp-action="Index" class="btn btn-secondary btn-block"><i class="fas fa-table">&nbsp;Back to List</i></a>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

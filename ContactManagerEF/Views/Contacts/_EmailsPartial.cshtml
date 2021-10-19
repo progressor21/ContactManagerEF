@@ -1,0 +1,24 @@
+﻿@model ContactManagerEF.Models.ContactEmailAddress
+
+<div class="emailEditRow">
+    <table class="table" id="tEmailAddresses">
+        <tr>
+            <td width="45%" align="left">
+                <input type="hidden" asp-for="@Model.Id" />
+                <div class="form-row">
+                    <div class="col-md-6">
+                        @Html.DropDownListFor(model => model.EmailType, ViewBag.RequiredEmailType as SelectList, new { @class = "form-control col-md-6" })
+                        @*@Html.ValidationMessageFor(model => model.EmailType, "", new { @class = "text-danger" })*@
+                    </div>
+                </div>
+            </td>
+            <td align="left">
+                <div class="col-md-auto">
+                    @Html.TextBoxFor(model => model.EmailAddress, new { @class = "form-control col-md-auto" })
+                    @Html.ValidationMessageFor(model => model.EmailAddress, "", new { @class = "text-danger" })
+                    <a href="#" class="deleteRow text-danger ml-1"><i class="fas fa-trash-alt fa-sm" style="border:none"></i></a>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>

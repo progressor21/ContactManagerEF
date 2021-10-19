@@ -1,0 +1,87 @@
+﻿@model ContactManagerEF.Models.Contact
+
+@{
+    ViewData["Title"] = "Edit";
+    //List<ContactEmailAddress> cEmailAddresses = TempData["cEmails"] as List<ContactEmailAddress>;
+}
+
+<h4>Edit Contact</h4>
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ContactId" />
+            <div class="form-group font-weight-bold">
+                @*<label asp-for="FirstName" class="control-label text-success"></label>*@
+                @Html.DisplayNameFor(model => model.FirstName)
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group font-weight-bold">
+                @*<label asp-for="LastName" class="control-label "></label>*@
+                @Html.DisplayNameFor(model => model.LastName)
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+
+            <div id="dEmailAddresses" class="form-group">
+                <table class="table" id="tEmailAddresses">
+                    <thead>
+                        <tr>
+                            <th width="45%">Email Type</th>
+                            <th>Email Address</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (cEmailAddresses != null && cEmailAddresses.Count() > 0)
+                        {
+                            @foreach (var item in cEmailAddresses)
+                            {
+                                @:<tr>
+                                    @:<td width="45%" align="left">
+                                        <input asp-for="@item.EmailType" class="form-control col-md-6" />
+                                        <span asp-validation-for="@item.EmailType" class="text-danger"></span>
+
+                                    @:</td>
+                                    @:<td align="left">
+                                        <input asp-for="@item.EmailAddress" class="form-control col-md-auto" />
+                                        <span asp-validation-for="@item.EmailAddress" class="text-danger"></span>
+                                    @:</td>
+                                @:</tr>
+                            }
+                        }
+                        else
+                        {
+                        <tr>
+                            <td colspan="2" class="text-danger">
+                                NO RECORDS
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+                <hr />
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <a asp-action="" class="btn btn-outline-success"><i class="far fa-plus-square"></i>&nbsp;Add Email</a>
+                </div>
+            </div>
+            <hr />
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <input type="submit" value="Save" class="btn btn-primary btn-block" />
+                </div>
+                <div class="form-group col-md-6">
+                    <a asp-action="Index" class="btn btn-secondary btn-block"><i class="fas fa-table">&nbsp;Back to List</i></a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
