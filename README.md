@@ -1,5 +1,5 @@
 Simple Contact Manager application
-
+----------------------------------
 Project Description:
 --------------------
 Applicaion is developed/built using C# and Microsoft ASP.NET Core 5.0 with MVC and Entity Framework (EF Core), jQuery/AJAX, Javacript in MS Visual Studio 2019 with a SQL Server database (SQLExpress) running locally.
@@ -82,9 +82,9 @@ Optional Appication Features and Functionality:
 	* When a record is edited, update the grid in all browsers open to the "search contacts" grid
 
 
-=======================
+
 Running the Application
-=======================
+-----------------------
 The application requires a recent version of .NET Core Framework (5.0.9 or later), local copy of the SQL Server (SQL Express) to run.
 And MS Visual Studio 2019 for a code review.
 
