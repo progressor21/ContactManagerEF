@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Delete";
+    Layout = null;
 }
 
 <h4 class="text-danger">Are you sure you want to DELETE this contact?</h4>
@@ -27,7 +28,7 @@
         <input type="hidden" asp-for="ContactId" />
 
         @*<input type="submit" value="Delete" class="btn btn-danger" onclick="return confirm('Are you sure to delete this record?');" />
-        <a asp-action="Index">Back to List</a>*@
+            <a asp-action="Index">Back to List</a>*@
 
         <div class="form-row">
             <div class="form-group col-md-3">

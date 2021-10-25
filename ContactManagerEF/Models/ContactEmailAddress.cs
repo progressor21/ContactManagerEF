@@ -34,17 +34,15 @@ namespace ContactManagerEF.Models
         }
 
         [Required]
-        [Display(Name = "Email Type")]
         [DisplayName("Email Type:")]
         [Column(TypeName = "nvarchar(15)")]
         public EmailTypes EmailType { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "At least one Email Address is required.")]
         [MaxLength(150)]
         [StringLength(150, ErrorMessage = "Email address cannot be longer than 150 characters.")]
         [DataType(DataType.EmailAddress)]
         [RegularExpression(@"[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}", ErrorMessage = "Incorrect Email Format")]
-        [Display(Name = "Email Address")]
         [DisplayName("Email Address:")]
         [Column(TypeName = "nvarchar(150)")]
         public string EmailAddress { get; set; }

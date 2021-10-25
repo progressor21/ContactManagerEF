@@ -35,6 +35,7 @@ namespace ContactManagerEF
             }
         }
 
+        //Attributes
         [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
         public class NoDirectAccessAttribute : ActionFilterAttribute
         {

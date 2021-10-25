@@ -4,9 +4,11 @@
     ViewData["Title"] = "Create";
 }
 
-<div>
-    <form asp-action="Create" onsubmit="return SubmitContactPost(this); ">
+<div class="col-md-12">
+    <form asp-action="Create" onsubmit="return SubmitContactPost(this);" autocomplete="off">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="panel-header text-left text-danger" style="height:auto;width:auto;display:none" id="validationSummary"></div>
+
         <div class="form-group font-weight-bold">
             <label asp-for="FirstName" class="control-label"></label>
             <input asp-for="FirstName" class="form-control" />
@@ -19,7 +21,7 @@
             <span asp-validation-for="LastName" class="text-danger"></span>
         </div>
 
-        <div class="form-group">
+        <div class="form-group col-md-12">
             <div class="form-row">
                 <div class="col-md-6 font-weight-bold">Email Type</div>
                 <div class="col-md-auto font-weight-bold">Email Address</div>
@@ -29,44 +31,44 @@
                     @if (Model.ContactEmailAddresses != null && Model.ContactEmailAddresses.Count() > 0)
                     {
                         int trcount = 1;
-                        @foreach (var item in Model.ContactEmailAddresses)
+                    @foreach (var item in Model.ContactEmailAddresses)
                         {
                             var trow = "tablerow" + trcount.ToString();
-                            @:<tr id="@trow" class="emailRow">
-                                @:<td width="45%" align="left">
-                                    <input type="hidden" asp-for="@item.Id" />
-                                    @*<input asp-for="@item.EmailType" class="form-control col-md-6" />*@
+                    @:<tr id="@trow" class="emailRow">
+                        @:<td width="45%" align="left">
+                            <input type="hidden" asp-for="@item.Id" />
+                            @*<input asp-for="@item.EmailType" class="form-control col-md-6" />*@
 
-                                    <select id="item_EmailType" name="item.EmailType" class="form-control col-md-auto">
-                                        <option value="" disabled hidden selected>Select Type</option>
-                                        @foreach (var s in ViewBag.RequiredEmailType)
+                            <select id="item_EmailType" name="item.EmailType" class="form-control col-md-auto">
+                                <option value="" disabled hidden selected>Select Type</option>
+                                @foreach (var s in ViewBag.RequiredEmailType)
                                         {
                                             if (s == item.EmailType)
                                             {
-                                                <option value=@s selected>@s</option>
+                                <option value=@s selected>@s</option>
                                             }
                                             else
                                             {
-                                                <option value=@s>@s</option>
+                                <option value=@s>@s</option>
                                             }
                                         }
-                                    </select>
+                            </select>
 
-                                    <span asp-validation-for="@item.EmailType" class="text-danger"></span>
+                            <span asp-validation-for="@item.EmailType" class="text-danger"></span>
 
-                                @:</td>
-                                @:<td align="left">
-                                    <input asp-for="@item.EmailAddress" class="form-control col-md-auto" />
-                                    <span asp-validation-for="@item.EmailAddress" class="text-danger"></span>
-                                @:</td>
-                                @:<td align="right">
-                                    @if (trcount > 1)
+                        @:</td>
+                        @:<td align="left">
+                            <input asp-for="@item.EmailAddress" class="form-control col-md-auto" />
+                            <span asp-validation-for="@item.EmailAddress" class="text-danger"></span>
+                        @:</td>
+                        @:<td align="right">
+                            @if (trcount > 1)
                                     {
-                                        <a href="#" class="deleteRow text-danger ml-1" title="Remove"><i class="fas fa-trash-alt fa-sm" style="border:none"></i></a>
-                                        @*<button type="button" class="text-danger ml-1" onclick="deleteTr(@trcount);"><i class="fas fa-trash-alt fa-sm" style="border:none"></i></button>*@
+                            <a href="#" class="deleteRow text-danger ml-1" title="Remove"><i class="fas fa-trash-alt fa-sm" style="border:none"></i></a>
+                            @*<button type="button" class="text-danger ml-1" onclick="deleteTr(@trcount);"><i class="fas fa-trash-alt fa-sm" style="border:none"></i></button>*@
                                     }
-                                @:</td>
-                            @:</tr>
+                        @:</td>
+                    @:</tr>
                             trcount++;
                         }
                     }
@@ -89,7 +91,8 @@
             <hr />
             <div class="form-row">
                 <div class="form-group col-md-6">
-                    <input type="submit" value="Save" class="btn btn-primary btn-block" />
+                    @*<input type="submit" value="Save" class="btn btn-primary btn-block" />*@
+                    <input type="button" id="btnSaveContactInfo" onclick="return validate();" value="Save" class="btn btn-primary btn-block" />
                 </div>
                 <div class="form-group col-md-6">
                     <a asp-action="Index" class="btn btn-secondary btn-block"><i class="fas fa-table">&nbsp;Back to List</i></a>

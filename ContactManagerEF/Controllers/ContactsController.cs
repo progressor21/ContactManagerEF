@@ -33,7 +33,7 @@ namespace ContactManagerEF.Controllers
         // GET: Contacts/Index/?Searchstring (with a search/filter parameter)
         public async Task<IActionResult> Index(string searchstring)
         {
-            ViewData["CurrentFilter"] = searchstring;
+            //ViewData["CurrentFilter"] = searchstring;
             if (!String.IsNullOrEmpty(searchstring))
             {
                 var filterContacts = await _repository.SearchContactsAsync(searchstring);
@@ -50,6 +50,7 @@ namespace ContactManagerEF.Controllers
         }
 
         // GET: Contacts/Details/5
+        [NoDirectAccess]
         public async Task<IActionResult> Details(int id)
         {
             var contactFound = await _repository.GetContactByIdAsync(id);
@@ -63,6 +64,7 @@ namespace ContactManagerEF.Controllers
         }
 
         // GET: Contacts/Create
+        [NoDirectAccess]
         public IActionResult Create(int id = 0)
         {
             Contact newContact = new Contact();
@@ -81,7 +83,7 @@ namespace ContactManagerEF.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ContactId,FirstName,LastName")] Contact contact)
+        public async Task<IActionResult> Create([Bind("ContactId,FirstName,LastName,item.EmailAddress")] Contact contact)
         {
             var emailIds = Request.Form["item.Id"].ToList();
             var emailType = Request.Form["item.EmailType"].ToList();
@@ -121,6 +123,7 @@ namespace ContactManagerEF.Controllers
         }
 
         // GET: Contacts/Edit/5
+        [NoDirectAccess]
         public async Task<IActionResult> Edit(int id)
         {
             List<ContactEmailAddress.EmailTypes> emailTypes = Enum.GetValues(typeof(ContactEmailAddress.EmailTypes)).Cast<ContactEmailAddress.EmailTypes>().ToList();
@@ -142,7 +145,7 @@ namespace ContactManagerEF.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ContactId,FirstName,LastName")] Contact contact)
+        public async Task<IActionResult> Edit(int id, [Bind("ContactId,FirstName,LastName,,item.EmailAddress")] Contact contact)
         {
             if (id != contact.ContactId)
             {
@@ -218,6 +221,7 @@ namespace ContactManagerEF.Controllers
         }
 
         // GET: Contacts/Delete/5
+        [NoDirectAccess]
         public async Task<IActionResult> Delete(int id)
         {
             //var contact = await _context.Contacts.FirstOrDefaultAsync(m => m.ContactId == id);

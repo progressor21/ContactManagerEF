@@ -4,7 +4,8 @@
     ViewData["Title"] = "Contact Details";
 }
 
-<div>
+
+<div class="col-md-12">
     <dl class="row">
         <dt class="col-sm-6">
             @Html.DisplayNameFor(model => model.FirstName)
@@ -20,7 +21,7 @@
         </dd>
     </dl>
 
-    <table class="table">
+    <table class="table" width="100%">
         <thead>
             <tr>
                 <th>Email Type</th>
@@ -31,33 +32,33 @@
         <tbody>
             @if (Model.ContactEmailAddresses != null && Model.ContactEmailAddresses.Count() > 0)
             {
-                @foreach (var item in Model.ContactEmailAddresses)
+            @foreach (var item in Model.ContactEmailAddresses)
                 {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.EmailType)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.EmailAddress)
-                        </td>
-                    </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmailType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmailAddress)
+                </td>
+            </tr>
                 }
             }
             else
             {
-                <tr>
-                    <td colspan="3">
-                        NO RECORDS
-                    </td>
-                </tr>
+            <tr>
+                <td colspan="3">
+                    NO RECORDS
+                </td>
+            </tr>
             }
         </tbody>
     </table>
 
     <div class="form-row">
         @*<div class="form-group col-md-6">*@
-            @*<a asp-action="Edit" asp-route-id="@Model.ContactId" class="btn btn-primary btn-block"><i class="fas fa-marker">&nbsp;Edit</i></a>*@
-            @*<a onclick="showInPopup('@Url.Action("Edit", "Contacts", new { id = Model.ContactId }, Context.Request.Scheme)','Edit Contact')" title="Edit Contact" class="btn btn-primary btn-block text-white"><i class="fas fa-marker">&nbsp;Edit</i></a>*@
+        @*<a asp-action="Edit" asp-route-id="@Model.ContactId" class="btn btn-primary btn-block"><i class="fas fa-marker">&nbsp;Edit</i></a>*@
+        @*<a onclick="showInPopup('@Url.Action("Edit", "Contacts", new { id = Model.ContactId }, Context.Request.Scheme)','Edit Contact')" title="Edit Contact" class="btn btn-primary btn-block text-white"><i class="fas fa-marker">&nbsp;Edit</i></a>*@
         @*</div>*@
         <div class="form-group col-md-auto">
             <a asp-action="Index" class="btn btn-secondary btn-block"><i class="fas fa-table">&nbsp;Close (Back to List)</i></a>

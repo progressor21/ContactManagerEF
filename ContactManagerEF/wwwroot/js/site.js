@@ -12,6 +12,72 @@ $(function () {
     });
 });
 
+//Client unobtrusive validation
+$(document).ready(function () {
+    $('#validationSummary').hide();
+});
+function checkValidation(id, header, message) {
+    var isSuccess = true;
+    if ($('#' + id).val() == '') {
+        $('#' + id).css({ "border-color": "red" });
+        /*$('#validationSummary').append("<span style='color:black'>" + header + "</span> -- ");*/
+        $('#validationSummary').append("<span style='color:red'>" + message + "</span><br/>");
+        isSuccess = false;
+    }
+    else {
+        $('#' + id).css({ "border-color": "blue" });
+    }
+    return isSuccess;
+}
+function validateEmail(id, header, message) {
+    var emailId = $('#' + id).val();
+    var isEmailValid = true;
+    if (emailId != '') {
+        //var filter = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+        //if (filter.test(emailId)) {
+        //    $('#' + id).css({ "border-color": "gray" });
+        //    isEmailValid = true;
+        //}
+        if (isEmailValid) {
+            $('#' + id).css({ "border-color": "blue" });
+            isEmailValid = true;
+        }
+        if (isEmailValid === false) {
+            /*$('#validationSummary').append("<span style='color:black'>" + header + "</span> -- ");*/
+            $('#validationSummary').append("<span style='color:red'>" + message + "</span><br/>");
+        }
+    }
+    return isEmailValid;
+}
+
+function validate() {
+    var isValidateSuccess = true;
+    $('#validationSummary').empty();
+    isValidateSuccess = checkValidation('FirstName', '', 'First Name is required');
+    isValidateSuccess = checkValidation('LastName', '', 'Last Name is required');
+    isValidateSuccess = checkValidation('item_EmailAddress', 'Email Addresses', 'Email address is required');
+
+    isValidateSuccess = validateEmail('item_EmailAddress', 'Email Addresses', 'Email is not valid');
+
+    if ($('#validationSummary > span').length > 0) {
+        $('#validationSummary').show();
+        isValidateSuccess = false;
+    }
+
+    if (isValidateSuccess === true) {
+        $('#validationSummary').hide();
+        //$('#btnSaveContactInfo').removeClass("btn-primary");
+        //$('#btnSaveContactInfo').addClass("btn-primary-save");
+        $('#btnSaveContactInfo').submit();
+    }
+    return isValidateSuccess;
+}
+function showResult(message) {
+    $("#btnSaveContactInfo").removeClass("btn-primary-save")
+    $("#btnSaveContactInfo").addClass("btn-primary");
+    $('#validationSummary').append("<span style='color:red'>" + message + "</span><br/>");
+}
+
 //$("#submit").click(function (e) {
 //    e.preventDefault();
 //    //var formData = new FormData();
@@ -40,28 +106,34 @@ $(function () {
 
 jQuery('body').on('input', 'input.SearchString', function (form) {
     var formData = new FormData();
-    //$("input.SearchString").val();
-    var searchString = $("input[name='SearchString']").val();
+    //var searchString = $("input[name='SearchString']").val();
+    var searchString = $("input.SearchString").val();
+    var SearchButton = $("input[name='srchButton']");
+    SearchButton.prop("disabled", searchString == "" ? false : true);
     formData.append("SearchString", searchString);
-    try {
-    $.ajax({
-        type: 'POST',
-        //url: form.action,
-        url: 'Contacts/Index/?searchstring=' + searchString,
-        //data: new FormData(form),
-        data: formData,
-        contentType: false,
-        processData: false,
-        success: function (res) {
-            $('#view-all').html(res.html);
-        },
-        error: function (err) {
-            console.log(err)
+    if (searchString == "") {
+        SearchButton.click();
+    } else {
+        try {
+            $.ajax({
+                type: 'POST',
+                url: form.action,
+                //url: 'Contacts/Index/?searchstring=' + searchString,
+                //data: new FormData(form),
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (res) {
+                    $('#view-all').html(res.html);
+                },
+                error: function (err) {
+                    console.log(err)
+                }
+            })
+        } catch (ex) {
+           console.log(ex)
         }
-    })
-  } catch (ex) {
-    console.log(ex)
-  }
+    }
 //prevent default form submit event
   return false;
 });
@@ -122,13 +194,13 @@ showInPopup = (url, title) => {
             //$("nav .navbar").hide();
             $('#form-modal .modal-body').html(res);
             $('#form-modal .modal-title').html(title);
+            $(".modal-body .navbar").hide();
+            $(".modal-body .footer").hide();
             $('#form-modal').modal('show');
-            $(".navbar").hide();
-            $(".footer").hide();
             // to make popup draggable
-        //    $('.modal-dialog').draggable({
-        //        handle: ".modal-header"
-        //    });
+            //$('.modal-dialog').draggable({
+            //    handle: ".modal-header"
+            //});
         }
     })
 }
@@ -199,11 +271,15 @@ SubmitContactPost = form => {
                     $('#form-modal .modal-body').html('');
                     $('#form-modal .modal-title').html('');
                     $('#form-modal').modal('hide');
+                    $.notify('Saved successfully', { globalPosition: 'top center', className: 'success' });
                 }
-                else
+                else {
                     $('#form-modal .modal-body').html(res.html);
+                    $(".modal-body").notify('Something went wrong... Please, try again', { position: 'top left', className: 'warn' });
+                }
             },
             error: function (err) {
+                $.notify('Server error!', { globalPosition: 'top center', className: 'error' });
                 console.log(err)
             }
         })
@@ -225,8 +301,10 @@ ContactDelete = form => {
                 processData: false,
                 success: function (res) {
                     $('#view-all').html(res.html);
+                    $.notify('Deleted successfully', { globalPosition: 'top center', className: 'success' });
                 },
                 error: function (err) {
+                    $.notify('Server error!', { globalPosition: 'top center', className: 'error' });
                     console.log(err)
                 }
             })
