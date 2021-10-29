@@ -57,7 +57,9 @@ namespace ContactManagerEF.CMData
         {
             //List<Contact> _contacts = _context.Contacts.ToList();
             //_contacts = _context.Contacts.Where(c => c.LastName.Contains(searchString) || c.FirstName.Contains(searchString)).ToListAsync();
-            return await _context.Contacts.Where(c => c.LastName.ToUpper().Contains(searchString.ToUpper()) || c.FirstName.ToUpper().Contains(searchString.ToUpper())).ToListAsync();
+            return await _context.Contacts.Where(c => c.LastName.ToUpper().Contains(searchString.ToUpper()) || 
+                                                    c.FirstName.ToUpper().Contains(searchString.ToUpper()) || 
+                                                    c.ContactEmailAddresses.Any(ec => ec.EmailAddress.Contains(searchString.ToUpper()))).ToListAsync();
         }
 
         public async Task<Contact> GetContactByIdAsync(int id)
